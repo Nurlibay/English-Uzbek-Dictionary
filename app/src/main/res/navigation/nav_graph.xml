@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/languageFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="uz.unidev.dictionary.ui.eng_uz.main.EngMainFragment"
+        android:label="MainFragment"
+        tools:layout="@layout/fragment_eng_main">
+        <action
+            android:id="@+id/action_mainFragment_to_bookmarkFragment"
+            app:destination="@id/bookmarkFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/bookmarkFragment"
+        android:name="uz.unidev.dictionary.ui.eng_uz.bookmark.BookmarkFragment"
+        android:label="BookmarkFragment"
+        tools:layout="@layout/fragment_bookmark" />
+    <fragment
+        android:id="@+id/languageFragment"
+        android:name="uz.unidev.dictionary.ui.language.LanguageFragment"
+        android:label="LanguageFragment"
+        tools:layout="@layout/fragment_language">
+        <action
+            android:id="@+id/action_languageFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_languageFragment_to_uzMainFragment"
+            app:destination="@id/uzMainFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/uzMainFragment"
+        android:name="uz.unidev.dictionary.ui.uzb_eng.main.UzMainFragment"
+        android:label="UzMainFragment"
+        tools:layout="@layout/fragment_uz_main">
+        <action
+            android:id="@+id/action_uzMainFragment_to_uzBookmarkFragment"
+            app:destination="@id/uzBookmarkFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="false"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/uzBookmarkFragment"
+        android:name="uz.unidev.dictionary.ui.uzb_eng.bookmark.UzBookmarkFragment"
+        android:label="UzBookmarkFragment"
+        tools:layout="@layout/fragment_uz_bookmark" />
+
+</navigation>

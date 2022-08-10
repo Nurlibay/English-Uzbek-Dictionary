@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">English-Uzbek Lug\'ati</string>
+    <string name="ENG_UZ">ENG_UZ</string>
+    <string name="search_articles_hint">Search</string>
+    <string name="no_search_results_found">Qidirilayotgan so\'z topilmadi</string>
+    <string name="english_uzbek_dictionary">ENGLISH-UZBEK</string>
+    <string name="bookmarks">Bookmarks</string>
+    <string name="no_favourites">No bookmarks</string>
+    <string name="accept">HA</string>
+    <string name="decline">YO\'Q</string>
+    <string name="title">Sevimlilarni o\'chirish</string>
+    <string name="supporting_text">Haqiqatdan ham barcha sevimlilarni o\'chirmoqchimisiz?</string>
+    <string name="uzbek_english">UZBEK-ENGLISH</string>
+    <string name="english_uzbek">ENGLISH-UZBEK</string>
+    <string name="uz_search">Qidirish</string>
+    <string name="dictionary">DICTIONARY</string>
+    <string name="title_eng">Delete all bookmarks</string>
+    <string name="message_eng">Are you sure?</string>
+    <string name="ok">OK</string>
+    <string name="no">NO</string>
+    <string name="bookmarks_uz">Saylanganlar</string>
+    <string name="no_favourites_uz">Saylanganlar yo\'q</string>
+    <string name="title_uz">Barcha saylanganlarni o\'chirish</string>
+    <string name="message_uz">Ishonchingiz komilmi?</string>
+    <string name="no_uz">YO\'Q</string>
+    <string name="ok_uz">HA</string>
+</resources>

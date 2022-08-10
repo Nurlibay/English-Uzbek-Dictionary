@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/intentEmail"
+        android:icon="@drawable/ic_baseline_email_24"
+        android:title="Bog'lanish" />
+
+    <item
+        android:id="@+id/rate"
+        android:icon="@drawable/ic_baseline_star_border_24"
+        android:title="Baho berish" />
+
+    <item
+        android:id="@+id/share_app"
+        android:icon="@drawable/ic_baseline_share_24"
+        android:title="Baham ko'rish" />
+
+</menu>
