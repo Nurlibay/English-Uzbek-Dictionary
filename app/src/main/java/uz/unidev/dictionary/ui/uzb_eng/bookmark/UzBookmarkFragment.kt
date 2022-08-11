@@ -66,7 +66,7 @@ class UzBookmarkFragment : Fragment(R.layout.fragment_uz_bookmark) {
                 }
                 .setPositiveButton(resources.getString(R.string.ok_uz)) { dialog, _ ->
                     viewModel.deleteAllBookmarks()
-                    adapter.submitList(mutableListOf())
+                    viewModel.getAllBookmarks()
                     binding.noFavourites.visibility = View.VISIBLE
                     dialog.dismiss()
                 }
@@ -89,8 +89,8 @@ class UzBookmarkFragment : Fragment(R.layout.fragment_uz_bookmark) {
             when (it.status) {
                 ResourceState.LOADING -> {}
                 ResourceState.SUCCESS -> {
-                    adapter.submitList(it.data!!)
-                    if (it.data.isEmpty()) {
+                    adapter.submitCursor(it.data!!)
+                    if (it.data.count == 0) {
                         binding.noFavourites.visibility = View.VISIBLE
                     } else {
                         binding.noFavourites.visibility = View.GONE

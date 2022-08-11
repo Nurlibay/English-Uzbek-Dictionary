@@ -1,5 +1,6 @@
 package uz.unidev.dictionary.domain.repository.impl
 
+import android.database.Cursor
 import uz.unidev.dictionary.data.dao.EngUzDao
 import uz.unidev.dictionary.data.dao.UzEngDao
 import uz.unidev.dictionary.data.entity.WordEntity
@@ -13,11 +14,11 @@ class UzRepositoryImpl(
     private val uzDao: UzEngDao
 ): UzRepository {
 
-    override suspend fun getAllWords(): List<WordEntity> {
+    override fun getAllWords(): Cursor {
         return uzDao.getAllWords()
     }
 
-    override suspend fun getSearchResult(query: String): List<WordEntity> {
+    override fun getSearchResult(query: String): Cursor {
         return uzDao.getSearchResult(query)
     }
 
@@ -25,11 +26,11 @@ class UzRepositoryImpl(
         uzDao.update(wordEntity)
     }
 
-    override suspend fun getAllBookmarks(): List<WordEntity> {
+    override fun getAllBookmarks(): Cursor {
         return uzDao.getAllBookmarks()
     }
 
-    override suspend fun deleteAllBookmarks() {
+    override fun deleteAllBookmarks() {
         uzDao.deleteAllBookmarks()
     }
 }

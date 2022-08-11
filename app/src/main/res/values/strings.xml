@@ -2,7 +2,7 @@
     <string name="app_name">English-Uzbek Lug\'ati</string>
     <string name="ENG_UZ">ENG_UZ</string>
     <string name="search_articles_hint">Search</string>
-    <string name="no_search_results_found">Qidirilayotgan so\'z topilmadi</string>
+    <string name="no_search_results_found">Searched word not found</string>
     <string name="english_uzbek_dictionary">ENGLISH-UZBEK</string>
     <string name="bookmarks">Bookmarks</string>
     <string name="no_favourites">No bookmarks</string>

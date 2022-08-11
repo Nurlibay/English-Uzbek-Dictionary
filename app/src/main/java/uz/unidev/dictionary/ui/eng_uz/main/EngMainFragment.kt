@@ -3,6 +3,8 @@ package uz.unidev.dictionary.ui.eng_uz.main
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.speech.RecognizerIntent
 import android.speech.tts.TextToSpeech
 import android.view.View
@@ -32,9 +34,8 @@ class EngMainFragment : Fragment(R.layout.fragment_eng_main) {
     private lateinit var binding: FragmentEngMainBinding
     private val viewModel: EngMainViewModel by viewModel()
     private lateinit var navController: NavController
-
+    private val handler: Handler by lazy { Handler(Looper.getMainLooper()) }
     private var adapter = EngWordAdapter()
-
     private lateinit var mTTS: TextToSpeech
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,10 +52,13 @@ class EngMainFragment : Fragment(R.layout.fragment_eng_main) {
 
         adapter.onItemClickListener {
             val bottomSheet = DefinitionBottomSheet()
+            bottomSheet.setOnBookmarkIconClickListener {
+                viewModel.getAllWords()
+            }
             val bundle = Bundle()
             bundle.putParcelable("data", it)
             bottomSheet.arguments = bundle
-            bottomSheet.show(requireActivity().supportFragmentManager, "BOTTOM_SHEET")
+            bottomSheet.show(childFragmentManager, "BOTTOM_SHEET")
         }
 
         binding.searchEditText.doOnTextChanged { text, _, _, _ ->
@@ -95,7 +99,7 @@ class EngMainFragment : Fragment(R.layout.fragment_eng_main) {
             when (it.status) {
                 ResourceState.LOADING -> {}
                 ResourceState.SUCCESS -> {
-                    adapter.submitDataList(it.data!!)
+                    adapter.submitCursor(it.data!!)
                 }
                 ResourceState.ERROR -> {
                     showMessage(it.message.toString())
@@ -111,8 +115,8 @@ class EngMainFragment : Fragment(R.layout.fragment_eng_main) {
             when (it.status) {
                 ResourceState.LOADING -> {}
                 ResourceState.SUCCESS -> {
-                    adapter.submitDataList(it.data!!)
-                    if (it.data.isEmpty()) {
+                    adapter.submitCursor(it.data!!)
+                    if (it.data.count == 0) {
                         binding.noSearchResultsFoundText.visibility = View.VISIBLE
                     } else {
                         binding.noSearchResultsFoundText.visibility = View.GONE
@@ -149,7 +153,9 @@ class EngMainFragment : Fragment(R.layout.fragment_eng_main) {
 
     private fun filterWithQuery(query: String) {
         if (query.isNotEmpty()) {
-            viewModel.getSearchedWords(query)
+            handler.postDelayed({
+                viewModel.getSearchedWords(query)
+            }, 300)
             setupObserveSearchedList()
         } else {
             viewModel.getAllWords()
@@ -164,5 +170,11 @@ class EngMainFragment : Fragment(R.layout.fragment_eng_main) {
             binding.clearSearchQuery.visibility = View.INVISIBLE
             binding.voiceSearchQuery.visibility = View.VISIBLE
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.searchEditText.setText("")
+        toggleImageView("")
     }
 }

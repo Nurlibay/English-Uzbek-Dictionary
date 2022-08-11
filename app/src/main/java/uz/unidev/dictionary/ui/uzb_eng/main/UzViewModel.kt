@@ -1,5 +1,6 @@
 package uz.unidev.dictionary.ui.uzb_eng.main
 
+import android.database.Cursor
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,7 +17,7 @@ import uz.unidev.dictionary.utils.Resource
 
 class UzViewModel(private val uzRepository: UzRepository) : ViewModel() {
 
-    private var _word: MutableLiveData<Resource<List<WordEntity>>> = MutableLiveData()
+    private var _word: MutableLiveData<Resource<Cursor>> = MutableLiveData()
     val word get() = _word
 
     fun getAllWords() {
@@ -30,7 +31,7 @@ class UzViewModel(private val uzRepository: UzRepository) : ViewModel() {
         }
     }
 
-    private var _searchedWord: MutableLiveData<Resource<List<WordEntity>>> = MutableLiveData()
+    private var _searchedWord: MutableLiveData<Resource<Cursor>> = MutableLiveData()
     val searchedWord get() = _searchedWord
 
     fun getSearchedWords(query: String) {
@@ -43,10 +44,4 @@ class UzViewModel(private val uzRepository: UzRepository) : ViewModel() {
             }
         }
     }
-
-    override fun onCleared() {
-        super.onCleared()
-        Log.d("VVV", "onCleared")
-    }
-
 }

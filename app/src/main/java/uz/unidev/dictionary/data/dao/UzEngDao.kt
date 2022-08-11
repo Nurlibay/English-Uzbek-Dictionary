@@ -1,5 +1,6 @@
 package uz.unidev.dictionary.data.dao
 
+import android.database.Cursor
 import androidx.room.Dao
 import androidx.room.Query
 import uz.unidev.dictionary.data.entity.WordEntity
@@ -12,14 +13,14 @@ import uz.unidev.dictionary.data.entity.WordEntity
 interface UzEngDao : BaseDao<WordEntity> {
 
     @Query("SELECT * FROM dictionary")
-    suspend fun getAllWords(): List<WordEntity>
+    fun getAllWords(): Cursor
 
     @Query("SELECT * FROM dictionary WHERE uzbek LIKE '%'|| :query || '%'")
-    suspend fun getSearchResult(query: String): List<WordEntity>
+    fun getSearchResult(query: String): Cursor
 
     @Query("SELECT * FROM dictionary WHERE is_favourite_uzb = 1")
-    suspend fun getAllBookmarks(): List<WordEntity>
+    fun getAllBookmarks(): Cursor
 
     @Query("UPDATE dictionary SET is_favourite_uzb = 0 WHERE is_favourite_uzb = 1")
-    suspend fun deleteAllBookmarks()
+    fun deleteAllBookmarks()
 }

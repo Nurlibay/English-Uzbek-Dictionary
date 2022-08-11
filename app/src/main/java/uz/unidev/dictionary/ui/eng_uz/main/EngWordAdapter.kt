@@ -1,55 +1,53 @@
 package uz.unidev.dictionary.ui.eng_uz.main
 
 import android.annotation.SuppressLint
+import android.database.Cursor
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import timber.log.Timber
 import uz.unidev.dictionary.data.entity.WordEntity
 import uz.unidev.dictionary.databinding.ItemEngWordBinding
 import uz.unidev.dictionary.utils.Extensions.coloredString
+import uz.unidev.dictionary.utils.Extensions.geWordData
 
 /**
  *  Created by Nurlibay Koshkinbaev on 31/07/2022 01:31
  */
 
-class EngWordAdapter : PagingDataAdapter<WordEntity, EngWordAdapter.WordViewHolder>(DiffUtilCallBack) {
+class EngWordAdapter : RecyclerView.Adapter<EngWordAdapter.WordViewHolder>() {
 
-    object DiffUtilCallBack : DiffUtil.ItemCallback<WordEntity>() {
-        override fun areItemsTheSame(oldItem: WordEntity, newItem: WordEntity): Boolean {
-            return oldItem.english == newItem.english
-        }
-
-        override fun areContentsTheSame(oldItem: WordEntity, newItem: WordEntity): Boolean {
-            return oldItem.english == newItem.english &&
-                    oldItem.uzbek == newItem.uzbek &&
-                    oldItem.type == newItem.type
-        }
-    }
-
-    var data = mutableListOf<WordEntity>()
-
+    private var cursor: Cursor? = null
+    // var data = mutableListOf<WordEntity>()
     var query: String? = null
 
     @SuppressLint("NotifyDataSetChanged")
-    fun submitDataList(items: List<WordEntity>) {
-        data.clear()
-        data.addAll(items)
+    fun submitCursor(cursor: Cursor) {
+        Timber.d("Submitted Cursor")
+        this.cursor = cursor
         notifyDataSetChanged()
     }
 
     inner class WordViewHolder(private val binding: ItemEngWordBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(wordEntity: WordEntity) {
-            binding.tvWord.text = wordEntity.english.coloredString(query)
-            binding.tvType.text = wordEntity.type
+        fun bind() {
+
+            cursor!!.moveToPosition(adapterPosition)
+            val data = cursor!!.geWordData()
+
+            binding.tvWord.text = data.english.coloredString(query)
+            binding.tvType.text = data.type
 
             binding.ivVolume.setOnClickListener {
-                iconVolumeClick.invoke(wordEntity)
+                cursor!!.moveToPosition(adapterPosition)
+                val data1 = cursor!!.geWordData()
+                iconVolumeClick.invoke(data1)
             }
+
             binding.item.setOnClickListener {
-                itemClick.invoke(wordEntity)
+                cursor!!.moveToPosition(adapterPosition)
+                val data2 = cursor!!.geWordData()
+                itemClick.invoke(data2)
             }
         }
     }
@@ -71,10 +69,12 @@ class EngWordAdapter : PagingDataAdapter<WordEntity, EngWordAdapter.WordViewHold
     }
 
     override fun onBindViewHolder(holder: WordViewHolder, position: Int) {
-        holder.bind(data[position])
+        holder.bind()
     }
 
     override fun getItemCount(): Int {
-        return data.size
+        val count = cursor?.count ?: 0
+        Timber.d(count.toString())
+        return count
     }
 }
