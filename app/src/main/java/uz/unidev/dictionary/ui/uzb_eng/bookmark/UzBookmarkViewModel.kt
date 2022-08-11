@@ -1,5 +1,6 @@
 package uz.unidev.dictionary.ui.uzb_eng.bookmark
 
+import android.database.Cursor
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,8 +17,8 @@ import uz.unidev.dictionary.utils.Resource
 
 class UzBookmarkViewModel(private val uzRepository: UzRepository): ViewModel() {
 
-    private var _bookmark: MutableLiveData<Resource<List<WordEntity>>> = MutableLiveData()
-    val bookmark: LiveData<Resource<List<WordEntity>>> = _bookmark
+    private var _bookmark: MutableLiveData<Resource<Cursor>> = MutableLiveData()
+    val bookmark: LiveData<Resource<Cursor>> = _bookmark
 
     fun getAllBookmarks() {
         _bookmark.value = Resource.loading()

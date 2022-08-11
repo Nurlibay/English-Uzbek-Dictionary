@@ -1,6 +1,6 @@
 package uz.unidev.dictionary.data.dao
 
-import androidx.paging.PagingSource
+import android.database.Cursor
 import androidx.room.Dao
 import androidx.room.Query
 import uz.unidev.dictionary.data.entity.WordEntity
@@ -13,14 +13,14 @@ import uz.unidev.dictionary.data.entity.WordEntity
 interface EngUzDao : BaseDao<WordEntity> {
 
     @Query("SELECT * FROM dictionary")
-    suspend fun getAllWords(): List<WordEntity>
+    fun getAllWords(): Cursor
 
     @Query("SELECT * FROM dictionary WHERE english LIKE '%'|| :query || '%'")
-    suspend fun getSearchResult(query: String): List<WordEntity>
+    fun getSearchResult(query: String): Cursor
 
     @Query("SELECT * FROM dictionary WHERE is_favourite = 1")
-    suspend fun getAllBookmarks(): List<WordEntity>
+    fun getAllBookmarks(): Cursor
 
     @Query("UPDATE dictionary SET is_favourite = 0 WHERE is_favourite = 1")
-    suspend fun deleteAllBookmarks()
+    fun deleteAllBookmarks()
 }

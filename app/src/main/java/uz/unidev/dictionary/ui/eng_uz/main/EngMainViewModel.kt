@@ -1,14 +1,11 @@
 package uz.unidev.dictionary.ui.eng_uz.main
 
+import android.database.Cursor
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.cachedIn
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import uz.unidev.dictionary.data.entity.WordEntity
 import uz.unidev.dictionary.domain.repository.EngRepository
 import uz.unidev.dictionary.utils.Resource
 
@@ -18,7 +15,7 @@ import uz.unidev.dictionary.utils.Resource
 
 class EngMainViewModel(private val engRepository: EngRepository) : ViewModel() {
 
-    private var _word: MutableLiveData<Resource<List<WordEntity>>> = MutableLiveData()
+    private var _word: MutableLiveData<Resource<Cursor>> = MutableLiveData()
     val word get() = _word
 
     fun getAllWords() {
@@ -34,7 +31,7 @@ class EngMainViewModel(private val engRepository: EngRepository) : ViewModel() {
         }
     }
 
-    private var _searchedWord: MutableLiveData<Resource<List<WordEntity>>> = MutableLiveData()
+    private var _searchedWord: MutableLiveData<Resource<Cursor>> = MutableLiveData()
     val searchedWord get() = _searchedWord
 
     fun getSearchedWords(query: String) {

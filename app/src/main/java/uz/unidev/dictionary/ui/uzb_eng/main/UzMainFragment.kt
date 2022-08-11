@@ -1,7 +1,11 @@
 package uz.unidev.dictionary.ui.uzb_eng.main
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
@@ -9,7 +13,6 @@ import androidx.navigation.Navigation
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import uz.unidev.dictionary.R
 import uz.unidev.dictionary.databinding.FragmentUzMainBinding
-import uz.unidev.dictionary.ui.eng_uz.definition.DefinitionBottomSheet
 import uz.unidev.dictionary.ui.uzb_eng.definition.UzDefinitionBottomSheet
 import uz.unidev.dictionary.utils.Extensions.addVerticalDivider
 import uz.unidev.dictionary.utils.Extensions.showMessage
@@ -26,6 +29,7 @@ class UzMainFragment : Fragment(R.layout.fragment_uz_main) {
     private lateinit var navController: NavController
 
     private var adapter = UzWordAdapter()
+    private val handler: Handler by lazy { Handler(Looper.getMainLooper()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -37,6 +41,9 @@ class UzMainFragment : Fragment(R.layout.fragment_uz_main) {
 
         adapter.onItemClickListener {
             val bottomSheet = UzDefinitionBottomSheet()
+            bottomSheet.setOnBookmarkIconClickListener {
+                viewModel.getAllWords()
+            }
             val bundle = Bundle()
             bundle.putParcelable("data", it)
             bottomSheet.arguments = bundle
@@ -70,7 +77,7 @@ class UzMainFragment : Fragment(R.layout.fragment_uz_main) {
             when (it.status) {
                 ResourceState.LOADING -> {}
                 ResourceState.SUCCESS -> {
-                    adapter.submitList(it.data!!)
+                    adapter.submitCursor(it.data!!)
                 }
                 ResourceState.ERROR -> {
                     showMessage("Something Wrong!")
@@ -85,8 +92,8 @@ class UzMainFragment : Fragment(R.layout.fragment_uz_main) {
             when (it.status) {
                 ResourceState.LOADING -> {}
                 ResourceState.SUCCESS -> {
-                    adapter.submitList(it.data!!)
-                    if (it.data.isEmpty()) {
+                    adapter.submitCursor(it.data!!)
+                    if (it.data.count == 0) {
                         binding.noSearchResultsFoundText.visibility = View.VISIBLE
                     } else {
                         binding.noSearchResultsFoundText.visibility = View.GONE
@@ -102,7 +109,9 @@ class UzMainFragment : Fragment(R.layout.fragment_uz_main) {
 
     private fun filterWithQuery(query: String) {
         if (query.isNotEmpty()) {
-            viewModel.getSearchedWords(query)
+            handler.postDelayed({
+                viewModel.getSearchedWords(query)
+            }, 300)
             setupObserveSearchedList()
         } else {
             viewModel.getAllWords()
@@ -117,4 +126,9 @@ class UzMainFragment : Fragment(R.layout.fragment_uz_main) {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        binding.searchEditText.setText("")
+        toggleImageView("")
+    }
 }

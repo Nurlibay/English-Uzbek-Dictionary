@@ -1,12 +1,15 @@
 package uz.unidev.dictionary.ui.uzb_eng.main
 
 import android.annotation.SuppressLint
+import android.database.Cursor
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import timber.log.Timber
 import uz.unidev.dictionary.data.entity.WordEntity
 import uz.unidev.dictionary.databinding.ItemUzWordBinding
 import uz.unidev.dictionary.utils.Extensions.coloredString
+import uz.unidev.dictionary.utils.Extensions.geWordData
 
 /**
  *  Created by Nurlibay Koshkinbaev on 05/08/2022 15:33
@@ -14,23 +17,28 @@ import uz.unidev.dictionary.utils.Extensions.coloredString
 
 class UzWordAdapter: RecyclerView.Adapter<UzWordAdapter.WordViewHolder>() {
 
-    var data = mutableListOf<WordEntity>()
-
-    var query: String? = null
+    private var cursor: Cursor? = null
 
     @SuppressLint("NotifyDataSetChanged")
-    fun submitList(items: List<WordEntity>) {
-        data.clear()
-        data.addAll(items)
+    fun submitCursor(cursor: Cursor) {
+        this.cursor = cursor
         notifyDataSetChanged()
     }
 
+    var query: String? = null
+
     inner class WordViewHolder(private val binding: ItemUzWordBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(wordEntity: WordEntity) {
-            binding.tvWord.text = wordEntity.uzbek.coloredString(query)
+        fun bind() {
+
+            cursor!!.moveToPosition(adapterPosition)
+            val data = cursor!!.geWordData()
+
+            binding.tvWord.text = data.uzbek.coloredString(query)
             binding.item.setOnClickListener {
-                itemClick.invoke(wordEntity)
+                cursor!!.moveToPosition(adapterPosition)
+                val data1 = cursor!!.geWordData()
+                itemClick.invoke(data1)
             }
         }
     }
@@ -52,11 +60,13 @@ class UzWordAdapter: RecyclerView.Adapter<UzWordAdapter.WordViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: WordViewHolder, position: Int) {
-        holder.bind(data[position])
+        holder.bind()
     }
 
     override fun getItemCount(): Int {
-        return data.size
+        val count = cursor?.count ?: 0
+        Timber.d(count.toString())
+        return count
     }
 
 }

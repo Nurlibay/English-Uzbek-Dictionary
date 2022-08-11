@@ -23,7 +23,7 @@ interface BaseDao<T> {
     @Insert
     suspend fun insert(vararg words: WordEntity)
 
-    @Update(onConflict = OnConflictStrategy.REPLACE)
+    @Update
     suspend fun update(data: WordEntity)
 
     @Update

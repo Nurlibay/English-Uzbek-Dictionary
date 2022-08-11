@@ -1,17 +1,18 @@
 package uz.unidev.dictionary.domain.repository
 
+import android.database.Cursor
 import uz.unidev.dictionary.data.entity.WordEntity
 
 interface UzRepository {
 
-    suspend fun getAllWords(): List<WordEntity>
+    fun getAllWords(): Cursor
 
-    suspend fun getSearchResult(query: String): List<WordEntity>
+    fun getSearchResult(query: String): Cursor
 
     suspend fun update(wordEntity: WordEntity)
 
-    suspend fun getAllBookmarks(): List<WordEntity>
+    fun getAllBookmarks(): Cursor
 
-    suspend fun deleteAllBookmarks()
+    fun deleteAllBookmarks()
 
 }

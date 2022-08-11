@@ -1,11 +1,14 @@
 package uz.unidev.dictionary.ui.eng_uz.bookmark
 
 import android.annotation.SuppressLint
+import android.database.Cursor
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import timber.log.Timber
 import uz.unidev.dictionary.data.entity.WordEntity
 import uz.unidev.dictionary.databinding.ItemEngWordBinding
+import uz.unidev.dictionary.utils.Extensions.geWordData
 
 /**
  *  Created by Nurlibay Koshkinbaev on 31/07/2022 01:31
@@ -13,25 +16,30 @@ import uz.unidev.dictionary.databinding.ItemEngWordBinding
 
 class BookmarkAdapter : RecyclerView.Adapter<BookmarkAdapter.BookmarkViewHolder>() {
 
-    var data = mutableListOf<WordEntity>()
+    private var cursor: Cursor? = null
 
     @SuppressLint("NotifyDataSetChanged")
-    fun submitList(items: List<WordEntity>) {
-        data.clear()
-        data.addAll(items)
+    fun submitCursor(cursor: Cursor) {
+        this.cursor = cursor
         notifyDataSetChanged()
     }
 
     inner class BookmarkViewHolder(private val binding: ItemEngWordBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(wordEntity: WordEntity) {
-            binding.tvWord.text = wordEntity.english
-            binding.tvType.text = wordEntity.type
+        fun bind() {
+
+            cursor!!.moveToPosition(adapterPosition)
+            val data = cursor!!.geWordData()
+
+            binding.tvWord.text = data.english
+            binding.tvType.text = data.type
             binding.ivVolume.setOnClickListener {
-                iconVolumeClick.invoke(wordEntity)
+                cursor!!.moveToPosition(adapterPosition)
+                iconVolumeClick.invoke(data)
             }
             binding.item.setOnClickListener {
-                itemClick.invoke(wordEntity)
+                cursor!!.moveToPosition(adapterPosition)
+                itemClick.invoke(data)
             }
         }
     }
@@ -53,10 +61,12 @@ class BookmarkAdapter : RecyclerView.Adapter<BookmarkAdapter.BookmarkViewHolder>
     }
 
     override fun onBindViewHolder(holder: BookmarkViewHolder, position: Int) {
-        holder.bind(data[position])
+        holder.bind()
     }
 
     override fun getItemCount(): Int {
-        return data.size
+        val count = cursor?.count ?: 0
+        Timber.d(count.toString())
+        return count
     }
 }
