@@ -7,9 +7,10 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="uz.unidev.dictionary.ui.eng_uz.main.EngMainFragment"
+        android:name="uz.nurlibaydev.enguzbdictionary.ui.eng_uz.main.EngMainFragment"
         android:label="MainFragment"
         tools:layout="@layout/fragment_eng_main">
+
         <action
             android:id="@+id/action_mainFragment_to_bookmarkFragment"
             app:destination="@id/bookmarkFragment"
@@ -19,14 +20,15 @@
             app:popExitAnim="@anim/slide_out_right" />
 
     </fragment>
+
     <fragment
         android:id="@+id/bookmarkFragment"
-        android:name="uz.unidev.dictionary.ui.eng_uz.bookmark.BookmarkFragment"
+        android:name="uz.nurlibaydev.enguzbdictionary.ui.eng_uz.bookmark.BookmarkFragment"
         android:label="BookmarkFragment"
         tools:layout="@layout/fragment_bookmark" />
     <fragment
         android:id="@+id/languageFragment"
-        android:name="uz.unidev.dictionary.ui.language.LanguageFragment"
+        android:name="uz.nurlibaydev.enguzbdictionary.ui.language.LanguageFragment"
         android:label="LanguageFragment"
         tools:layout="@layout/fragment_language">
         <action
@@ -46,7 +48,7 @@
     </fragment>
     <fragment
         android:id="@+id/uzMainFragment"
-        android:name="uz.unidev.dictionary.ui.uzb_eng.main.UzMainFragment"
+        android:name="uz.nurlibaydev.enguzbdictionary.ui.uzb_eng.main.UzMainFragment"
         android:label="UzMainFragment"
         tools:layout="@layout/fragment_uz_main">
         <action
@@ -60,7 +62,7 @@
     </fragment>
     <fragment
         android:id="@+id/uzBookmarkFragment"
-        android:name="uz.unidev.dictionary.ui.uzb_eng.bookmark.UzBookmarkFragment"
+        android:name="uz.nurlibaydev.enguzbdictionary.ui.uzb_eng.bookmark.UzBookmarkFragment"
         android:label="UzBookmarkFragment"
         tools:layout="@layout/fragment_uz_bookmark" />
 
